@@ -19,9 +19,12 @@ decrypt: ARTIFACTS = $(FILES:$(GCP)/%=%)
 decrypt:
 	$(MAKE) -f decrypt.mk $(ARTIFACTS)
 
-download:
+download: $(GCP)/$(DATA)
 	gsutil rsync \
 		-r \
-		$(BUCKET) $(GCP)/$(DATA)/
+		$(BUCKET) $<
+
+$(GCP)/%:
+	mkdir -p $@
 
 .PHONY: all encrypt upload decrypt download
